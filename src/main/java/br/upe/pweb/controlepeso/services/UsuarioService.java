@@ -23,22 +23,19 @@ public class UsuarioService {
 
     @Transactional(readOnly = false)
     public Usuario save(Usuario usuario) {
-        if(usuario == null){
+        if (usuario == null) {
             throw new RuntimeException("Usuario não pode ser nulo");
         }
         usuario.setId(null);
 
-        if(StringUtils.hasLength(usuario.getNome()) ||
-                StringUtils.hasLength(usuario.getEmail()) ||
-                usuario.getAltura() <= 0  ||
-                usuario.getGenero() == null ||
-                usuario.getPesoInicial() <= 0 ||
-                usuario.getPesoFinal() <= 0 ||
-                usuario.getDataFinal() == null) {
+        if (!StringUtils.hasLength(usuario.getNome()) || !StringUtils.hasLength(usuario.getEmail())
+                || usuario.getAltura() <= 0 || usuario.getGenero() == null
+                || usuario.getPesoInicial() <= 0 || usuario.getPesoFinal() <= 0
+                || usuario.getDataFinal() == null) {
             throw new RuntimeException("Informe os campos de preenchimento obrigatório");
         }
 
-        if(usuarioRepo.findByEmail(usuario.getEmail()) != null){
+        if (usuarioRepo.findByEmail(usuario.getEmail()) != null) {
             throw new RuntimeException("Email já cadastrado");
         }
 
